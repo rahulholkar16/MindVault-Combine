@@ -49,4 +49,11 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            sh 'rm -f .env backend/.env'
+            sh 'docker logout || true'
+            sh 'docker image prune -f'
+        }
+    }
 }
