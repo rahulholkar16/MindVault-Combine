@@ -7,9 +7,9 @@ pipeline {
             }
         }
         
-        stage ("Test") {
+        stage("Trivy Scan") {
             steps {
-                echo "Test Done"
+                sh "trivy fs --format table -o result.json ."
             }
         }
         
