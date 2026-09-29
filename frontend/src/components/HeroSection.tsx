@@ -13,7 +13,7 @@ const HeroSection = () => {
                 {/* Left Content */}
                 <div className="w-full md:w-3/4 text-center md:text-left">
                     <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight">
-                        Your Personal{" "} RAHUL GATE
+                        Your Personal{" "}
                         <span className="bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                             Knowledge Hub
                         </span>
