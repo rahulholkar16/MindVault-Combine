@@ -69,6 +69,7 @@ pipeline {
             sh 'docker image prune -f'
             sh 'npm cache clean --force || true'
             sh 'bun pm cache rm || true'
+            sh 'rm -rf ~/.cache/trivy || true'
         }
     }
 }
