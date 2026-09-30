@@ -29,7 +29,7 @@ pipeline {
         stage ("OWASP Dependency Check") {
             steps {
                 withCredentials ([
-                    string(credentialsId: 'nvd-api-key', variable: 'OWASP-NVD-ID')
+                    string(credentialsId: 'OWASP-NVD-ID', variable: 'OWASP-NVD-ID')
                 ]) {
                     dependencyCheck(
                         additionalArguments: "--scan ./ --nvdApiKey ${OWASP-NVD-ID}",
