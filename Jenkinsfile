@@ -20,9 +20,16 @@ pipeline {
             }
         }
 
-        stage("Trivy Scan") {
+        stage ("Trivy Scan") {
             steps {
                 sh "trivy fs --format table --exit-code 1 --severity HIGH,CRITICAL -o result.json ."
+            }
+        }
+
+        stage ("OWASP Dependency Check") {
+            steps {
+                dependencyCheck additionalArguments: "--scan ./", odcInstallation: "dc"
+                dependencyCheckPublisher pattern: "**/dependency-check-report.xml"
             }
         }
 
