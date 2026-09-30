@@ -1,18 +1,25 @@
 pipeline {
     agent {label "agent-1"};
+    
+    environment {
+        SONAR_HOME= tool "Sonar"
+    }
+
     stages {
-        stage ("Code") {
+        stage ("Clone Code") {
             steps {
                 git url: "https://github.com/rahulholkar16/MindVault-Combine.git", branch: "main"
             }
         }
-        
-        stage("Trivy Scan") {
+
+        stage ("SonarQube Quality Analysis") {
             steps {
-                sh "trivy fs --format table --exit-code 1 --severity HIGH,CRITICAL -o result.json ."
+                withSonarQubeEnv("Sonar") {
+                    sh "$SONAR_HOME/bin/sonar-scanner -Dsonar.projectName=MindVault -Dsonar.projectKey=mindvault"
+                }
             }
         }
-        
+
         stage ("Build") {
             steps {
                 withCredentials([
@@ -28,6 +35,16 @@ pipeline {
                 }
             }
         }
+
+        stage ("Test") {}
+        
+        stage("Trivy Scan") {
+            steps {
+                sh "trivy fs --format table --exit-code 1 --severity HIGH,CRITICAL -o result.json ."
+            }
+        }
+        
+        
         
         stage ("Push on Docker Hub") {
             steps {
@@ -54,6 +71,8 @@ pipeline {
             sh 'rm -f .env backend/.env'
             sh 'docker logout || true'
             sh 'docker image prune -f'
+            sh 'npm cache clean --force || true'
+            sh 'bun pm cache rm || true'
         }
     }
 }
