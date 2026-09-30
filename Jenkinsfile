@@ -28,8 +28,14 @@ pipeline {
 
         stage ("OWASP Dependency Check") {
             steps {
-                dependencyCheck additionalArguments: "--scan ./", odcInstallation: "dc"
-                dependencyCheckPublisher pattern: "**/dependency-check-report.xml"
+                dependencyCheck(
+                    additionalArguments: "--scan ./ --nvdApiDelay 10000",
+                    odcInstallation: "dc"
+                )
+
+                dependencyCheckPublisher(
+                    pattern: "**/dependency-check-report.xml"
+                )
             }
         }
 
