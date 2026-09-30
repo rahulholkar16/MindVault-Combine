@@ -20,6 +20,12 @@ pipeline {
             }
         }
 
+        stage("Trivy Scan") {
+            steps {
+                sh "trivy fs --format table --exit-code 1 --severity HIGH,CRITICAL -o result.json ."
+            }
+        }
+
         stage ("Build") {
             steps {
                 withCredentials([
@@ -35,14 +41,6 @@ pipeline {
                 }
             }
         }
-        
-        stage("Trivy Scan") {
-            steps {
-                sh "trivy fs --format table --exit-code 1 --severity HIGH,CRITICAL -o result.json ."
-            }
-        }
-        
-        
         
         stage ("Push on Docker Hub") {
             steps {
