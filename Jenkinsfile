@@ -1,6 +1,6 @@
 pipeline {
     agent {label "agent-1"};
-    
+
     environment {
         SONAR_HOME= tool "Sonar"
     }
@@ -35,8 +35,6 @@ pipeline {
                 }
             }
         }
-
-        stage ("Test") {}
         
         stage("Trivy Scan") {
             steps {
