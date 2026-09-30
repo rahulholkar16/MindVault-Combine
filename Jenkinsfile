@@ -28,11 +28,14 @@ pipeline {
 
         stage ("OWASP Dependency Check") {
             steps {
-                dependencyCheck(
-                    additionalArguments: "--scan ./ --nvdApiDelay 10000",
-                    odcInstallation: "dc"
-                )
-
+                withCredentials ([
+                    string(credentialsId: 'nvd-api-key', variable: 'OWASP-NVD-ID')
+                ]) {
+                    dependencyCheck(
+                        additionalArguments: "--scan ./ --nvdApiKey ${OWASP-NVD-ID}",
+                        odcInstallation: "dc"
+                    )
+                }
                 dependencyCheckPublisher(
                     pattern: "**/dependency-check-report.xml"
                 )
