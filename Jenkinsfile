@@ -76,8 +76,15 @@ pipeline {
             agent {label "deploy"};
             steps {
                 withCredentials ([
+                    file(credentialsId: 'mind-vault-root-env', variable: 'ROOT_ENV'),
+                    file(credentialsId: 'mind-vault-backend-env', variable: 'BACKEND_ENV'),
                     usernamePassword(credentialsId: 'dockerHubCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASS')
                 ]) {
+                    sh '''
+                        rm -f .env backend/.env
+                        cp "$ROOT_ENV" .env
+                        cp "$BACKEND_ENV" backend/.env
+                    '''
                     sh 'docker login -u ${USERNAME} -p ${PASS}'
                     sh "docker compose pull"
                     sh "docker compose up -d"
