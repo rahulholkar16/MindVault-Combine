@@ -73,7 +73,9 @@ pipeline {
         }
         
         stage ("Deploy") {
+            agent {label "deploy"};
             steps {
+                sh "docker compose pull"
                 sh "docker compose up -d"
             }
         }
