@@ -75,8 +75,13 @@ pipeline {
         stage ("Deploy") {
             agent {label "deploy"};
             steps {
-                sh "docker compose pull"
-                sh "docker compose up -d"
+                withCredentials ([
+                    usernamePassword(credentialsId: 'dockerHubCreds', usernameVariable: 'USERNAME', passwordVariable: 'PASS')
+                ]) {
+                    sh 'docker login -u ${USERNAME} -p ${PASS}'
+                    sh "docker compose pull"
+                    sh "docker compose up -d"
+                }
             }
         }
     }
