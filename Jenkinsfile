@@ -22,7 +22,7 @@ pipeline {
 
         stage ("Trivy Scan") {
             steps {
-                sh "trivy fs --format table --exit-code 1 --severity HIGH,CRITICAL -o result.json ."
+                sh "trivy fs --skip-version-check --format table --exit-code 1 --severity HIGH,CRITICAL -o result.json ."
             }
         }
 
