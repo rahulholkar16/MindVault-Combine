@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: mindvault-backend-deployment
+  namespace: mindvault-ns
+  labels:
+    app: mindvault-backend
+  
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mindvault-backend
+    
+  template:
+    metadata:
+      name: mindvault-backend-pod
+      labels:
+        app: mindvault-backend
+      namespace: mindvault-ns
+    
+    spec:
+      containers:
+        - name: mindvault-backend
+          image: rahulpal16/mindvaultcicd-mindvault-backend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mindvault-secret
+                  key: DB_URL
+                  
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mindvault-config
+                  key: PORT
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "228Mi"
+            
+            limits:
+              cpu: "250m"
+              memory: "512Mi"

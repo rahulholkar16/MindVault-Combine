@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: mindvault-bac-svc
+  namespace: mindvault-ns
+
+spec:
+  selector:
+    app: mindvault-backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+    
