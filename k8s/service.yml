@@ -13,3 +13,19 @@ spec:
       port: 3000
       targetPort: 3000
     
+---
+
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: mindvault-fr-svc
+  namespace: mindvault-ns
+
+spec:
+  selector:
+    app: mindvault-frontend
+  ports:
+    - protocol: TCP
+      port: 5473
+      targetPort: 5473

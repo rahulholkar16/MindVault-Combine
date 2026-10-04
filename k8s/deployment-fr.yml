@@ -1,0 +1,37 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: mindvault-frontend-deployment
+  namespace: mindvault-ns
+  labels: 
+    app: mindvault-frontend
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mindvault-frontend
+
+  template:
+    metadata:
+      name: mindvault-frontend-pod
+      labels:
+        app: mindvault-frontend
+      namespace: mindvault-ns
+    
+    spec:
+      containers:
+        - name: mindvault-frontend
+          image: rahulpal16/mindvaultcicd-mindvault-frontend:latest
+          ports:
+            - containerPort: 5473
+      
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "228Mi"
+            
+            limits:
+              cpu: "250m"
+              memory: "512Mi"

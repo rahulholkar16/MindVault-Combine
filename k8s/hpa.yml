@@ -21,3 +21,29 @@ spec:
         target:
           type: Utilization
           averageUtilization: 60
+
+---
+
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+
+metadata:
+  name: mindvault-fr-hpa
+  namespace: mindvault-ns
+
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    apiVersion: apps/v1
+    name: mindvault-frontend-deployment
+  
+  minReplicas: 1
+  maxReplicas: 10
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
