@@ -64,14 +64,14 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     newUser.verificationToken = hasedToken;
     newUser.verificationTokenExpire = tokenExpiry;
     await newUser.save({ validateBeforeSave: false });
-    await sendEmail({
-        email: newUser.email,
-        subject: "Plesase verify your email.",
-        mailgenContent: emailVerificationContent(
-            newUser.name,
-            `${process.env.CORS_ORIGIN}/verify-user/${unHashedToken}`
-        ),
-    });
+    // await sendEmail({
+    //     email: newUser.email,
+    //     subject: "Plesase verify your email.",
+    //     mailgenContent: emailVerificationContent(
+    //         newUser.name,
+    //         `${process.env.CORS_ORIGIN}/verify-user/${unHashedToken}`
+    //     ),
+    // });
     const data = await UserModel.findById(newUser._id).select(
         "-password -verificationToken -resetPasswordToken -refreshToken"
     );
